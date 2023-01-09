@@ -1,23 +1,52 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import { useQueryResponse } from "./hooks";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get("q");
+  const results = useQueryResponse(searchParams);
+  console.log("result", results);
+  const list = results?.items;
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const newQ = formData.get("q") as string;
+    if (!newQ) return;
+    setSearchParams({ q: newQ });
+  }
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <div className="title">Search</div>
+      <form onSubmit={handleSubmit} method="GET">
+        <label>
+          <input
+            key={q}
+            type="text"
+            placeholder="Search Github repositories"
+            defaultValue={q ?? ""}
+            name="q"
+          />
+          <img src="/search.svg" className="search" alt="Search" width="20" height="20" />
+        </label>
+      </form>
+      {list?.length ? (
+        <ul>
+          {list.map((item) => {
+            return (
+              <li key={item.id}>
+                <a href={item.html_url} target="_blank" rel="noreferrer">
+                  {item.full_name}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
