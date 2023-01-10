@@ -8,9 +8,12 @@ export function useQueryResponse(query: URLSearchParams): SearchRepositoryRespon
     const abortController = new AbortController();
 
     async function getGithubRepositories() {
-      const response = await fetch(`https://api.github.com/search/repositories?q=${query}`, {
-        signal: abortController.signal,
-      });
+      const response = await fetch(
+        `https://api.github.com/search/repositories?${query.toString()}`,
+        {
+          signal: abortController.signal,
+        },
+      );
       if (!abortController.signal.aborted) {
         const json = await response.json();
         setData(json);
