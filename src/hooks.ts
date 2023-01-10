@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import type { SearchRepositoryResponse } from "./global";
+import type { SearchRepositoryParameters, SearchRepositoryResponse } from "./global";
 
-export function useQueryResponse(query: URLSearchParams): SearchRepositoryResponse | null {
-  console.log("useQueryResponse", query.toString());
+export function useQueryResponse(
+  searchParams: SearchRepositoryParameters,
+): SearchRepositoryResponse | null {
+  console.log("useQueryResponse", searchParams);
   const [data, setData] = useState(null);
   useEffect(() => {
     const abortController = new AbortController();
-
+    const urlSearchParams = new URLSearchParams(searchParams as unknown as Record<string, string>);
     async function getGithubRepositories() {
       const response = await fetch(
-        `https://api.github.com/search/repositories?${query.toString()}`,
+        `https://api.github.com/search/repositories?${urlSearchParams.toString()}`,
         {
           signal: abortController.signal,
         },
@@ -20,7 +22,7 @@ export function useQueryResponse(query: URLSearchParams): SearchRepositoryRespon
       }
     }
 
-    if (query.has("q")) {
+    if (searchParams.q) {
       getGithubRepositories();
     } else {
       setData(null);
@@ -29,6 +31,6 @@ export function useQueryResponse(query: URLSearchParams): SearchRepositoryRespon
     return () => {
       abortController.abort();
     };
-  }, [query]);
+  }, [searchParams]);
   return data;
 }

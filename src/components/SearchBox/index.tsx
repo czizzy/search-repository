@@ -2,12 +2,11 @@ import { ChangeEvent, FormEvent, useCallback } from "react";
 import debounce from "lodash/debounce";
 
 type SearchBoxProps = {
-  query: string | null;
   onChange: (value: string) => void;
 };
 
 export function SearchBox(props: SearchBoxProps) {
-  const { onChange, query } = props;
+  const { onChange } = props;
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
   }
@@ -22,10 +21,8 @@ export function SearchBox(props: SearchBoxProps) {
     <form onSubmit={handleSubmit}>
       <label>
         <input
-          key={query}
           type="text"
           placeholder="Search Github repositories"
-          defaultValue={query ?? ""}
           onChange={handleChange}
           name="q"
         />
