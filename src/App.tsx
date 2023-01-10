@@ -12,7 +12,6 @@ function App() {
     getDefaultSearchParams(),
   );
   const results = useQueryResponse(searchParams);
-  console.log("result", results);
   const handleChange = useCallback((value: string) => {
     console.log("value", value);
     setSearchParams({ ...searchParams, q: value });
