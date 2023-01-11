@@ -9,32 +9,40 @@ describe("render", () => {
     render(<App />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
-});
 
-it("search and display list", async () => {
-  render(<App />);
+  it("search and display list", async () => {
+    render(<App />);
 
-  const input = screen.getByRole("textbox");
-  expect(input).toBeInTheDocument();
-  await userEvent.type(input, "test");
-  await screen.findByRole("list");
-  expect(screen.getAllByRole("listitem")).toHaveLength(10);
-});
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+    await userEvent.type(input, "test");
+    await screen.findByRole("list");
+    expect(screen.getAllByRole("listitem")).toHaveLength(10);
+  });
 
-it("search result is empty", async () => {
-  render(<App />);
+  it("search result is empty", async () => {
+    render(<App />);
 
-  const input = screen.getByRole("textbox");
-  expect(input).toBeInTheDocument();
-  await userEvent.type(input, "testdfdasfasdfsafdas");
-  // await screen.findByRole("list")
-  await waitFor(
-    () => {
-      return new Promise((resolve) => {
-        setTimeout(resolve, 1000);
-      });
-    },
-    { timeout: 2000 },
-  );
-  expect(screen.queryByRole("list")).toBeNull();
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+    await userEvent.type(input, "testdfdasfasdfsafdas");
+    await waitFor(
+      () => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, 1000);
+        });
+      },
+      { timeout: 2000 },
+    );
+    expect(screen.queryByRole("list")).toBeNull();
+  });
+
+  it("search error", async () => {
+    render(<App />);
+
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+    await userEvent.type(input, "error");
+    expect(await screen.findByText(/Error/)).toBeInTheDocument();
+  });
 });

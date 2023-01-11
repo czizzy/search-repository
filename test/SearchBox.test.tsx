@@ -10,7 +10,7 @@ describe("render SearchBox", () => {
   it("render", () => {
     const handleClick = vi.fn();
 
-    render(<SearchBox onChange={handleClick} />);
+    render(<SearchBox onChange={handleClick} isSearching={false} />);
 
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
@@ -18,7 +18,7 @@ describe("render SearchBox", () => {
 
 it("should change input value", async () => {
   const handleClick = vi.fn();
-  render(<SearchBox onChange={handleClick} />);
+  render(<SearchBox onChange={handleClick} isSearching={false} />);
 
   const input = screen.getByRole("textbox");
   expect(input).toBeInTheDocument();

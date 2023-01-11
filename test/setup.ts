@@ -8,6 +8,7 @@ import fetch from "node-fetch";
 
 import list from "./mock/list.json";
 import empty from "./mock/empty.json";
+import error from "./mock/error.json";
 
 /** @ts-ignore */
 global.fetch = fetch;
@@ -17,9 +18,10 @@ expect.extend(matchers);
 
 export const restHandlers = [
   rest.get("https://api.github.com/search/repositories", (req, res, ctx) => {
-    console.log("req", req);
     if (req.url.searchParams.get("q") === "test") {
       return res(ctx.status(200), ctx.json(list));
+    } else if (req.url.searchParams.get("q") === "error") {
+      return res(ctx.status(403), ctx.json(error));
     } else {
       return res(ctx.status(200), ctx.json(empty));
     }

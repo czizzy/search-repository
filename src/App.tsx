@@ -13,7 +13,6 @@ function App() {
   );
   const [results, isLoading, error] = useQueryResponse(searchParams);
   const handleChange = useCallback((value: string) => {
-    console.log("value", value);
     setSearchParams({ ...searchParams, q: value });
   }, []);
 
@@ -39,7 +38,6 @@ function App() {
         <div
           style={{
             opacity: isLoading ? 0.5 : 1,
-            transition: isLoading ? "opacity 0.2s 0.2s linear" : "opacity 0s 0s linear",
           }}
         >
           {results ? <SearchList list={results.items} q={searchParams.q} /> : null}

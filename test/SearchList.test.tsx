@@ -13,6 +13,7 @@ describe("render SearchList", () => {
     expect(screen.getByRole("list")).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).toHaveLength(10);
   });
+
   it("render empty", () => {
     render(<SearchList list={empty.items} q={"test"} />);
     expect(screen.getByText(/We couldn’t /)).toBeInTheDocument();
