@@ -2,11 +2,12 @@ import { SearchRepositoryResponse } from "../../global";
 
 type SearchListProps = {
   list: SearchRepositoryResponse["items"];
+  q: string;
 };
 
 export function SearchList(props: SearchListProps) {
-  const { list } = props;
-  return (
+  const { list, q } = props;
+  return list.length ? (
     <ul role="list">
       {list.map((item) => {
         return (
@@ -18,5 +19,7 @@ export function SearchList(props: SearchListProps) {
         );
       })}
     </ul>
+  ) : (
+    <div>We couldn’t find any repositories matching &apos;{q}&apos;</div>
   );
 }

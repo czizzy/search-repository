@@ -1,21 +1,23 @@
 import { ChangeEvent, useCallback } from "react";
 import debounce from "lodash/debounce";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 type SearchBoxProps = {
   onChange: (value: string) => void;
+  isSearching: boolean;
 };
 
 export function SearchBox(props: SearchBoxProps) {
-  const { onChange } = props;
+  const { onChange, isSearching } = props;
 
   const handleChange = useCallback(
     debounce((e: ChangeEvent<HTMLInputElement>) => {
       onChange(e.target.value);
-    }, 500),
+    }, 400),
     [],
   );
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <label>
         <input
           type="text"
@@ -24,6 +26,7 @@ export function SearchBox(props: SearchBoxProps) {
           name="q"
         />
       </label>
+      {isSearching ? <ScaleLoader /> : null}
     </div>
   );
 }
