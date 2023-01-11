@@ -1,3 +1,5 @@
+![unit tests](https://github.com/czizzy/search-repository/actions/workflows/unittest.js.yml/badge.svg)
+
 # search-repository
 Search GitHub repositories.
 
