@@ -3,9 +3,9 @@ import type { SearchRepositoryParameters, SearchRepositoryResponse } from "./glo
 
 export function useQueryResponse(
   searchParams: SearchRepositoryParameters,
-): [SearchRepositoryResponse | null, boolean] {
-  console.log("useQueryResponse", searchParams);
-  const [data, setData] = useState(null);
+): [SearchRepositoryResponse | null, boolean, string] {
+  const [data, setData] = useState<SearchRepositoryResponse | null>(null);
+  const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const abortController = new AbortController();
@@ -19,8 +19,14 @@ export function useQueryResponse(
       );
       if (!abortController.signal.aborted) {
         const json = await response.json();
-        setData(json);
         setIsLoading(false);
+        if (!response.ok) {
+          const error = json?.message || response.status;
+          setError(error);
+        } else {
+          setData(json);
+          setError("");
+        }
       }
     }
 
@@ -30,11 +36,12 @@ export function useQueryResponse(
     } else {
       setIsLoading(false);
       setData(null);
+      setError("");
     }
 
     return () => {
       abortController.abort();
     };
   }, [searchParams]);
-  return [data, isLoading];
+  return [data, isLoading, error];
 }

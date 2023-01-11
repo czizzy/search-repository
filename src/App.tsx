@@ -11,7 +11,7 @@ function App() {
   const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>(() =>
     getDefaultSearchParams(),
   );
-  const [results, isLoading] = useQueryResponse(searchParams);
+  const [results, isLoading, error] = useQueryResponse(searchParams);
   const handleChange = useCallback((value: string) => {
     console.log("value", value);
     setSearchParams({ ...searchParams, q: value });
@@ -33,14 +33,18 @@ function App() {
       </blockquote>
       <div>If you encounter this problem, please try again later.</div>
       <SearchBox onChange={handleChange} isSearching={isLoading} />
-      <div
-        style={{
-          opacity: isLoading ? 0.5 : 1,
-          transition: isLoading ? "opacity 0.2s 0.2s linear" : "opacity 0s 0s linear",
-        }}
-      >
-        {results ? <SearchList list={results.items} q={searchParams.q} /> : null}
-      </div>
+      {error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <div
+          style={{
+            opacity: isLoading ? 0.5 : 1,
+            transition: isLoading ? "opacity 0.2s 0.2s linear" : "opacity 0s 0s linear",
+          }}
+        >
+          {results ? <SearchList list={results.items} q={searchParams.q} /> : null}
+        </div>
+      )}
     </div>
   );
 }
