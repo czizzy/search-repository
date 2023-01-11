@@ -11,7 +11,7 @@ function App() {
   const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>(() =>
     getDefaultSearchParams(),
   );
-  const [results, isLoading, error] = useQueryResponse(searchParams);
+  const [results, isLoading] = useQueryResponse(searchParams);
   const handleChange = useCallback((value: string) => {
     setSearchParams({ ...searchParams, q: value });
   }, []);
@@ -19,30 +19,30 @@ function App() {
   return (
     <div className="App">
       <div>This project implements a demo that searches the GitHub repository.</div>
-      <blockquote>
-        For unauthenticated requests, the rate limit allows you to make up to 10 requests per
-        minute. Read more about{" "}
-        <a
-          href="https://docs.github.com/en/rest/search?apiVersion=2022-11-28#rate-limit"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Github API Rate limit
-        </a>
-      </blockquote>
+      <div>
+        <strong>
+          For unauthenticated requests, the rate limit allows you to make up to 10 requests per
+          minute. Read more about{" "}
+          <a
+            href="https://docs.github.com/en/rest/search?apiVersion=2022-11-28#rate-limit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github API Rate limit
+          </a>
+        </strong>
+      </div>
       <div>If you encounter this problem, please try again later.</div>
       <SearchBox onChange={handleChange} isSearching={isLoading} />
-      {error ? (
-        <div>Error: {error}</div>
-      ) : (
+      {results ? (
         <div
           style={{
             opacity: isLoading ? 0.5 : 1,
           }}
         >
-          {results ? <SearchList list={results.items} q={searchParams.q} /> : null}
+          <SearchList result={results} q={searchParams.q} />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

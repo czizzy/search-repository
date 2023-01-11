@@ -22,6 +22,8 @@ export const restHandlers = [
       return res(ctx.status(200), ctx.json(list));
     } else if (req.url.searchParams.get("q") === "error") {
       return res(ctx.status(403), ctx.json(error));
+    } else if (req.url.searchParams.get("q") === "status") {
+      return res(ctx.status(404), ctx.json({ test: 404 }));
     } else {
       return res(ctx.status(200), ctx.json(empty));
     }

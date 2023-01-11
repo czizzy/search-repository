@@ -45,4 +45,13 @@ describe("render", () => {
     await userEvent.type(input, "error");
     expect(await screen.findByText(/Error/)).toBeInTheDocument();
   });
+
+  it("search 404", async () => {
+    render(<App />);
+
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+    await userEvent.type(input, "status");
+    expect(await screen.findByText(/Error/)).toBeInTheDocument();
+  });
 });

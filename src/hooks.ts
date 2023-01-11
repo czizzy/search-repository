@@ -3,10 +3,10 @@ import type { SearchRepositoryParameters, SearchRepositoryResponse } from "./glo
 
 export function useQueryResponse(
   searchParams: SearchRepositoryParameters,
-): [SearchRepositoryResponse | null, boolean, string] {
+): [SearchRepositoryResponse | string | null, boolean] {
   const [data, setData] = useState<SearchRepositoryResponse | null>(null);
-  const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const abortController = new AbortController();
     const urlSearchParams = new URLSearchParams(searchParams as unknown as Record<string, string>);
@@ -22,10 +22,9 @@ export function useQueryResponse(
         setIsLoading(false);
         if (!response.ok) {
           const error = json?.message || response.status;
-          setError(error);
+          setData(error);
         } else {
           setData(json);
-          setError("");
         }
       }
     }
@@ -36,12 +35,11 @@ export function useQueryResponse(
     } else {
       setIsLoading(false);
       setData(null);
-      setError("");
     }
 
     return () => {
       abortController.abort();
     };
   }, [searchParams]);
-  return [data, isLoading, error];
+  return [data, isLoading];
 }

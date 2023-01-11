@@ -1,6 +1,8 @@
 import { ChangeEvent, useCallback } from "react";
 import debounce from "lodash/debounce";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import BounceLoader from "react-spinners/BounceLoader";
+
+import "./SearchBox.css";
 
 type SearchBoxProps = {
   onChange: (value: string) => void;
@@ -17,16 +19,18 @@ export function SearchBox(props: SearchBoxProps) {
     [],
   );
   return (
-    <div style={{ display: "flex" }}>
-      <label>
+    <div className="searchbox-container">
+      <label className="searchbox-label">
         <input
+          className="searchbox"
           type="text"
           placeholder="Search Github repositories"
           onChange={handleChange}
           name="q"
+          autoFocus
         />
       </label>
-      {isSearching ? <ScaleLoader /> : null}
+      {isSearching ? <BounceLoader size={30} color={"#f4a261"} /> : null}
     </div>
   );
 }

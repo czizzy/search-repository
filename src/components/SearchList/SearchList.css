@@ -1,0 +1,45 @@
+.search-list {
+  margin-top: 30px;
+
+}
+.search-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.search-list li {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.repo-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.repo-desc {
+  margin-bottom: 10px;
+}
+
+.repo-info {
+  display: flex;
+  font-size: 14px;
+}
+
+.repo-info div {
+  margin-right: 10px;
+}
+
+.repo-info a { 
+  color: var(--text)
+}
+.repo-info a:hover { 
+  color: var(--yellow)
+}
+
+.tip {
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
