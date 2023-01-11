@@ -1,5 +1,7 @@
 ![unit tests](https://github.com/czizzy/search-repository/actions/workflows/unittest.js.yml/badge.svg)
 
+[demo](https://czizzy.github.io/search-repository/)
+
 # search-repository
 Search GitHub repositories.
 
