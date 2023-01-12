@@ -42,7 +42,7 @@ export function SearchBox(props: SearchBoxProps) {
           name="q"
           autoFocus
         />
-        {isSearching ? <BounceLoader size={30} color={"#f4a261"} /> : null}
+        {isSearching ? <BounceLoader size={30} color={"#f28482"} /> : null}
       </label>
       <label className="searchbox-sort-label">
         <select name="sort" defaultValue={""} onChange={handleSortChange} role="listbox">

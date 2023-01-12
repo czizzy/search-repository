@@ -34,7 +34,7 @@
   color: var(--text)
 }
 .repo-info a:hover { 
-  color: var(--yellow)
+  color: var(--hover)
 }
 
 .tip {
