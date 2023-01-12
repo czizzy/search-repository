@@ -1,20 +1,34 @@
 import { useCallback, useState } from "react";
 
-import { useQueryResponse } from "./hooks";
+import { useQueryResponse } from "./hooks/useQueryResponse";
 import { SearchBox } from "./components/SearchBox";
 import { SearchList } from "./components/SearchList";
-import { getDefaultSearchParams } from "./utils";
+import { isSearchRepositoryResponse } from "./utils";
 import type { SearchRepositoryParameters } from "./global";
 import "./App.css";
+import { Pagination } from "./components/Pagination";
 
 function App() {
-  const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>(() =>
-    getDefaultSearchParams(),
-  );
+  const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>({
+    q: "",
+    per_page: 10,
+    page: 1,
+    sort: undefined,
+  });
   const [results, isLoading] = useQueryResponse(searchParams);
-  const handleChange = useCallback((value: string) => {
-    setSearchParams({ ...searchParams, q: value });
-  }, []);
+  const handleQChange = useCallback(
+    (value: string) => {
+      setSearchParams({ ...searchParams, q: value });
+    },
+    [searchParams],
+  );
+
+  const handlePageChange = useCallback(
+    (value: number) => {
+      setSearchParams({ ...searchParams, page: value });
+    },
+    [searchParams],
+  );
 
   return (
     <div className="App">
@@ -33,7 +47,9 @@ function App() {
         </strong>
       </div>
       <div>If you encounter this problem, please try again later.</div>
-      <SearchBox onChange={handleChange} isSearching={isLoading} />
+
+      <SearchBox onChange={handleQChange} isSearching={isLoading} />
+
       {results ? (
         <div
           style={{
@@ -41,6 +57,13 @@ function App() {
           }}
         >
           <SearchList result={results} q={searchParams.q} />
+          {isSearchRepositoryResponse(results) ? (
+            <Pagination
+              totalCount={results.total_count}
+              currentPage={searchParams.page}
+              onChange={handlePageChange}
+            />
+          ) : null}
         </div>
       ) : null}
     </div>

@@ -1,4 +1,5 @@
 import { SearchRepositoryResponse } from "../../global";
+import { isSearchRepositoryResponse } from "../../utils";
 import Star from "../Icons/Star";
 
 import "./SearchList.css";
@@ -7,12 +8,6 @@ type SearchListProps = {
   result: SearchRepositoryResponse | string;
   q: string;
 };
-
-function isSearchRepositoryResponse(
-  res: SearchRepositoryResponse | string,
-): res is SearchRepositoryResponse {
-  return (res as SearchRepositoryResponse).items !== undefined;
-}
 
 export function SearchList(props: SearchListProps) {
   const { result, q } = props;

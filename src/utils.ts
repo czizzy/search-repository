@@ -1,10 +1,7 @@
-import type { SearchRepositoryParameters } from "./global";
+import type { SearchRepositoryResponse } from "./global";
 
-export function getDefaultSearchParams(): SearchRepositoryParameters {
-  return {
-    q: "",
-    per_page: 10,
-    page: 1,
-    sort: undefined,
-  };
+export function isSearchRepositoryResponse(
+  res: SearchRepositoryResponse | string,
+): res is SearchRepositoryResponse {
+  return (res as SearchRepositoryResponse).items !== undefined;
 }

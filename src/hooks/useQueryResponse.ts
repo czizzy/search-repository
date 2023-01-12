@@ -6,7 +6,6 @@ export function useQueryResponse(
 ): [SearchRepositoryResponse | string | null, boolean] {
   const [data, setData] = useState<SearchRepositoryResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const abortController = new AbortController();
     const urlSearchParams = new URLSearchParams(searchParams as unknown as Record<string, string>);
