@@ -19,13 +19,13 @@ expect.extend(matchers);
 export const restHandlers = [
   rest.get("https://api.github.com/search/repositories", (req, res, ctx) => {
     if (req.url.searchParams.get("q") === "test") {
-      return res(ctx.status(200), ctx.json(list));
+      return res(ctx.delay(200), ctx.status(200), ctx.json(list));
     } else if (req.url.searchParams.get("q") === "error") {
-      return res(ctx.status(403), ctx.json(error));
+      return res(ctx.delay(200), ctx.status(403), ctx.json(error));
     } else if (req.url.searchParams.get("q") === "status") {
-      return res(ctx.status(404), ctx.json({ test: 404 }));
+      return res(ctx.delay(200), ctx.status(404), ctx.json({ test: 404 }));
     } else {
-      return res(ctx.status(200), ctx.json(empty));
+      return res(ctx.delay(200), ctx.status(200), ctx.json(empty));
     }
   }),
 ];
