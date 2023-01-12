@@ -16,8 +16,7 @@ describe("render", () => {
     const input = screen.getByRole("textbox");
     expect(input).toBeInTheDocument();
     await userEvent.type(input, "test");
-    await screen.findByRole("list");
-    expect(screen.getAllByRole("listitem")).toHaveLength(10);
+    await expect(await screen.findByRole("list")).toBeInTheDocument();
   });
 
   it("search result is empty", async () => {

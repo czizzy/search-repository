@@ -16,7 +16,7 @@ export function SearchBox(props: SearchBoxProps) {
     debounce((e: ChangeEvent<HTMLInputElement>) => {
       onChange(e.target.value);
     }, 400),
-    [],
+    [onChange],
   );
   return (
     <div className="searchbox-container">

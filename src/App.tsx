@@ -13,12 +13,11 @@ function App() {
     q: "",
     per_page: 10,
     page: 1,
-    sort: undefined,
   });
   const [results, isLoading] = useQueryResponse(searchParams);
   const handleQChange = useCallback(
     (value: string) => {
-      setSearchParams({ ...searchParams, q: value });
+      setSearchParams({ ...searchParams, q: value, page: 1 });
     },
     [searchParams],
   );
