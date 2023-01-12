@@ -4,27 +4,30 @@ import "./Pagination.css";
 
 type PaginationProps = Omit<UsePaginationProps, "totalPageCount"> & {
   onChange: (current: number) => void;
+  disabled?: boolean;
   maxCount?: number;
 };
 
 const pageSize = 10;
 
 export function Pagination(props: PaginationProps) {
-  const { maxCount = 1000, currentPage = 1, totalCount, onChange } = props;
+  const { maxCount = 1000, currentPage = 1, totalCount, onChange, disabled = false } = props;
   const totalPageCount = Math.ceil(Math.min(maxCount, totalCount) / pageSize);
   const items = usePagination({ ...props, totalPageCount });
 
   function handleChange(current: number) {
-    onChange(current);
+    if (current !== currentPage) {
+      onChange(current);
+    }
   }
 
-  return (
+  return items.length ? (
     <ul role="navigation" aria-label="Pagination" className="pagination">
       <li key={"prev"}>
         <button
           tabIndex={0}
           type="button"
-          disabled={currentPage === 1}
+          disabled={disabled || currentPage === 1}
           aria-label={`page ${currentPage - 1}`}
           onClick={() => {
             handleChange(currentPage - 1);
@@ -42,6 +45,7 @@ export function Pagination(props: PaginationProps) {
               tabIndex={0}
               type="button"
               aria-label={`page ${item}`}
+              disabled={disabled}
               className={typeof item === "number" && currentPage === item ? "active" : ""}
               onClick={() => {
                 handleChange(item);
@@ -56,7 +60,7 @@ export function Pagination(props: PaginationProps) {
         <button
           tabIndex={0}
           type="button"
-          disabled={currentPage === totalPageCount}
+          disabled={disabled || currentPage === totalPageCount}
           aria-label={`page ${currentPage + 1}`}
           onClick={() => {
             handleChange(currentPage + 1);
@@ -66,5 +70,5 @@ export function Pagination(props: PaginationProps) {
         </button>
       </li>
     </ul>
-  );
+  ) : null;
 }

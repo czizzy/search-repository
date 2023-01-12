@@ -14,8 +14,8 @@ function App() {
     per_page: 10,
     page: 1,
   });
-  const [results, isLoading] = useQueryResponse(searchParams);
-  const handleQChange = useCallback(
+  const [results, isSearching] = useQueryResponse(searchParams);
+  const handleQueryChange = useCallback(
     (value: string) => {
       setSearchParams({ ...searchParams, q: value, page: 1 });
     },
@@ -29,8 +29,15 @@ function App() {
     [searchParams],
   );
 
-  return (
-    <div className="App">
+  const handleSortChange = useCallback(
+    (value: SearchRepositoryParameters["sort"]) => {
+      setSearchParams({ ...searchParams, sort: value });
+    },
+    [searchParams],
+  );
+
+  const desc = (
+    <div className="app-desc">
       <div>This project implements a demo that searches the GitHub repository.</div>
       <div>
         <strong>
@@ -46,25 +53,37 @@ function App() {
         </strong>
       </div>
       <div>If you encounter this problem, please try again later.</div>
+    </div>
+  );
 
-      <SearchBox onChange={handleQChange} isSearching={isLoading} />
-
-      {results ? (
-        <div
-          style={{
-            opacity: isLoading ? 0.5 : 1,
-          }}
-        >
-          <SearchList result={results} q={searchParams.q} />
-          {isSearchRepositoryResponse(results) ? (
-            <Pagination
-              totalCount={results.total_count}
-              currentPage={searchParams.page}
-              onChange={handlePageChange}
-            />
-          ) : null}
-        </div>
-      ) : null}
+  return (
+    <div className="App">
+      <SearchBox
+        onQueryChange={handleQueryChange}
+        onSortChange={handleSortChange}
+        isSearching={isSearching}
+      />
+      <div
+        style={{
+          opacity: isSearching ? 0.5 : 1,
+        }}
+      >
+        {results ? (
+          <>
+            <SearchList result={results} q={searchParams.q} />
+            {isSearchRepositoryResponse(results) ? (
+              <Pagination
+                totalCount={results.total_count}
+                currentPage={searchParams.page}
+                onChange={handlePageChange}
+                disabled={isSearching}
+              />
+            ) : null}
+          </>
+        ) : (
+          desc
+        )}
+      </div>
     </div>
   );
 }

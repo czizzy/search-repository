@@ -1,5 +1,5 @@
 .search-list {
-  margin-top: 30px;
+  margin-top: 20px;
 
 }
 .search-list ul {
@@ -9,21 +9,21 @@
 
 .search-list li {
   border-top: 1px solid var(--border);
-  padding: 24px 0;
+  padding: 14px 0;
+  font-size: 14px;
 }
 
 .repo-title {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 4px;
 }
 
 .repo-desc {
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .repo-info {
   display: flex;
-  font-size: 14px;
 }
 
 .repo-info div {

@@ -8,21 +8,31 @@ import { SearchBox } from "../src/components/SearchBox";
 
 describe("render SearchBox", () => {
   it("render", () => {
-    const handleClick = vi.fn();
+    const callback = vi.fn();
 
-    render(<SearchBox onChange={handleClick} isSearching={false} />);
+    render(<SearchBox onQueryChange={callback} onSortChange={callback} isSearching={false} />);
 
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 });
 
 it("should change input value", async () => {
-  const handleClick = vi.fn();
-  render(<SearchBox onChange={handleClick} isSearching={false} />);
+  const callback = vi.fn();
+  render(<SearchBox onQueryChange={callback} onSortChange={callback} isSearching={false} />);
 
   const input = screen.getByRole("textbox");
   expect(input).toBeInTheDocument();
   await userEvent.type(input, "test");
   expect(input).toHaveValue("test");
-  await waitFor(() => expect(handleClick).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
+});
+
+it("should change select value", async () => {
+  const callback = vi.fn();
+  render(<SearchBox onQueryChange={callback} onSortChange={callback} isSearching={false} />);
+
+  const select = screen.getByRole("listbox");
+  expect(select).toBeInTheDocument();
+  await userEvent.selectOptions(select, "stars");
+  await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
 });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { SearchRepositoryParameters, SearchRepositoryResponse } from "./global";
+import { SearchRepositoryParameters, SearchRepositoryResponse } from "../global";
 
 export function useQueryResponse(
   searchParams: SearchRepositoryParameters,
@@ -8,6 +8,9 @@ export function useQueryResponse(
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const abortController = new AbortController();
+    if (!searchParams.sort) {
+      delete searchParams.sort;
+    }
     const urlSearchParams = new URLSearchParams(searchParams as unknown as Record<string, string>);
     async function getGithubRepositories() {
       const response = await fetch(

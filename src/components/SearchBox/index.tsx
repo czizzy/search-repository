@@ -3,34 +3,56 @@ import debounce from "lodash/debounce";
 import BounceLoader from "react-spinners/BounceLoader";
 
 import "./SearchBox.css";
+import { SearchRepositoryParameters } from "../../global";
 
 type SearchBoxProps = {
-  onChange: (value: string) => void;
+  onQueryChange: (value: string) => void;
+  onSortChange: (value: SearchRepositoryParameters["sort"]) => void;
   isSearching: boolean;
 };
 
-export function SearchBox(props: SearchBoxProps) {
-  const { onChange, isSearching } = props;
+const sortOptions: Array<[SearchRepositoryParameters["sort"], string]> = [
+  [undefined, "Best match"],
+  ["stars", "Most stars"],
+  ["forks", "Most forks"],
+  ["updated", "Most updated"],
+];
 
-  const handleChange = useCallback(
+export function SearchBox(props: SearchBoxProps) {
+  const { onQueryChange, onSortChange, isSearching } = props;
+
+  const handleInputChange = useCallback(
     debounce((e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      onQueryChange(e.target.value);
     }, 400),
-    [onChange],
+    [onQueryChange],
   );
+
+  const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    onSortChange(e.target.value as SearchRepositoryParameters["sort"]);
+  };
   return (
     <div className="searchbox-container">
-      <label className="searchbox-label">
+      <label className="searchbox-q-label">
         <input
           className="searchbox"
           type="text"
           placeholder="Search Github repositories"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="q"
           autoFocus
         />
+        {isSearching ? <BounceLoader size={30} color={"#f4a261"} /> : null}
       </label>
-      {isSearching ? <BounceLoader size={30} color={"#f4a261"} /> : null}
+      <label className="searchbox-sort-label">
+        <select name="sort" defaultValue={""} onChange={handleSortChange} role="listbox">
+          {sortOptions.map(([value, text]) => (
+            <option key={text} value={value ?? ""}>
+              {text}
+            </option>
+          ))}
+        </select>
+      </label>
     </div>
   );
 }
