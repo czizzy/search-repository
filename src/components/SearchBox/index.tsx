@@ -3,7 +3,6 @@ import debounce from "lodash/debounce";
 import BounceLoader from "react-spinners/BounceLoader";
 
 import "./SearchBox.css";
-import { SearchRepositoryParameters } from "../../global";
 
 type SearchBoxProps = {
   onQueryChange: (value: string) => void;

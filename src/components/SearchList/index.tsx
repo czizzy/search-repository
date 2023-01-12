@@ -1,4 +1,3 @@
-import { SearchRepositoryResponse } from "../../global";
 import { isSearchRepositoryResponse } from "../../utils";
 import Star from "../Icons/Star";
 

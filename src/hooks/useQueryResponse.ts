@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SearchRepositoryParameters, SearchRepositoryResponse } from "../global";
 
 export function useQueryResponse(
   searchParams: SearchRepositoryParameters,

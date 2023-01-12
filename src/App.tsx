@@ -4,9 +4,9 @@ import { useQueryResponse } from "./hooks/useQueryResponse";
 import { SearchBox } from "./components/SearchBox";
 import { SearchList } from "./components/SearchList";
 import { isSearchRepositoryResponse } from "./utils";
-import type { SearchRepositoryParameters } from "./global";
-import "./App.css";
 import { Pagination } from "./components/Pagination";
+
+import "./App.css";
 
 function App() {
   const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>({

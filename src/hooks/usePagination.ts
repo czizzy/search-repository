@@ -55,18 +55,18 @@ export const usePagination = ({
       const leftItemCount = 3 + 2 * siblingCount;
       const leftRange = range(1, leftItemCount);
 
-      return [...leftRange, DOTS, totalPageCount];
+      return [...leftRange, DOTS, totalPageCount] as Array<Item>;
     }
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightItemCount = 3 + 2 * siblingCount;
       const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount);
-      return [firstPageIndex, DOTS, ...rightRange];
+      return [firstPageIndex, DOTS, ...rightRange] as Array<Item>;
     }
 
     if (shouldShowLeftDots && shouldShowRightDots) {
       const middleRange = range(leftSiblingIndex, rightSiblingIndex);
-      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex] as Array<Item>;
     }
 
     return range(1, totalPageCount);
