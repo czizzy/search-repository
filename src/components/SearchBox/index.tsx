@@ -44,7 +44,13 @@ export function SearchBox(props: SearchBoxProps) {
         {isSearching ? <BounceLoader size={30} color={"#f28482"} /> : null}
       </label>
       <label className="searchbox-sort-label">
-        <select name="sort" defaultValue={""} onChange={handleSortChange} role="listbox">
+        <select
+          disabled={isSearching}
+          name="sort"
+          defaultValue={""}
+          onChange={handleSortChange}
+          role="listbox"
+        >
           {sortOptions.map(([value, text]) => (
             <option key={text} value={value ?? ""}>
               {text}
