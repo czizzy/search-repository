@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 
 import { useQueryResponse } from "./hooks/useQueryResponse";
 import { SearchBox } from "./components/SearchBox";
@@ -7,6 +7,30 @@ import { isSearchRepositoryResponse } from "./utils";
 import { Pagination } from "./components/Pagination";
 
 import "./App.css";
+
+const Desc = memo(() => {
+  return (
+    <div className="app-desc">
+      <div>This project implements a demo that searches the GitHub repository.</div>
+      <div>
+        <strong>
+          For unauthenticated requests, the rate limit allows you to make up to 10 requests per
+          minute. Read more about{" "}
+          <a
+            href="https://docs.github.com/en/rest/search?apiVersion=2022-11-28#rate-limit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github API Rate limit
+          </a>
+        </strong>
+      </div>
+      <div>If you encounter this problem, please try again later.</div>
+    </div>
+  );
+});
+
+Desc.displayName = "Desc";
 
 function App() {
   const [searchParams, setSearchParams] = useState<SearchRepositoryParameters>({
@@ -36,26 +60,6 @@ function App() {
     [searchParams],
   );
 
-  const desc = (
-    <div className="app-desc">
-      <div>This project implements a demo that searches the GitHub repository.</div>
-      <div>
-        <strong>
-          For unauthenticated requests, the rate limit allows you to make up to 10 requests per
-          minute. Read more about{" "}
-          <a
-            href="https://docs.github.com/en/rest/search?apiVersion=2022-11-28#rate-limit"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Github API Rate limit
-          </a>
-        </strong>
-      </div>
-      <div>If you encounter this problem, please try again later.</div>
-    </div>
-  );
-
   return (
     <div className="App">
       <SearchBox
@@ -81,7 +85,7 @@ function App() {
             ) : null}
           </>
         ) : (
-          desc
+          <Desc />
         )}
       </div>
     </div>
